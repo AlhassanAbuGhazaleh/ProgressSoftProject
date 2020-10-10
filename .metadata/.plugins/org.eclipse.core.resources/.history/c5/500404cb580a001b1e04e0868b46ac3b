@@ -1,0 +1,5 @@
+package com.progresssoft.generic.service;
+
+public interface GenericService extends {
+
+}

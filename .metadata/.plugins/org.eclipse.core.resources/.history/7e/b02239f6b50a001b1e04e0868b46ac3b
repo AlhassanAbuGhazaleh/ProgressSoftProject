@@ -1,0 +1,20 @@
+package com.progresssoft.service;
+
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.progresssoft.dao.CurrencyDao;
+import com.progresssoft.generic.service.GenericServiceImpl;
+import com.progresssoft.model.Currency;
+import com.progresssoft.utils.Logger;
+
+@Service
+@Transactional
+public class CurrencyServiceImpl extends GenericServiceImpl<Currency> implements CurrencyService {
+
+	private static final Logger logger = Logger.getLogger(CurrencyServiceImpl.class);
+
+	@Autowired
+	private CurrencyDao currencyDao;
+
+}

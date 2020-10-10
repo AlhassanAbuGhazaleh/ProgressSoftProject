@@ -1,0 +1,146 @@
+$(document).ready(
+		function() {
+
+			$("#cancelBtn").click(function() {
+				window.location.href = '../home';
+			});
+
+			$("#taskForm").on(
+					'submit',
+					function(e) {
+						e.preventDefault();
+						if (validateForm()) {
+							submitTaskForm();
+						} else {
+							toastrNotification("error",
+									"Please fill the required fields.",
+									"Invalid Fields", "");
+						}
+					});
+
+		});
+
+function validateForm() {
+	debugger;
+	var isValid = true;
+	// var taskType = $("#taskType").val();
+	// $("#eventKeys").val().length == 0
+	// if (taskType == "CRM" || taskType == "UQUIZ" || taskType == "UMNICOIN") {
+	// if (isEmpty("#eventKeys")) {
+	// isValid = false;
+	// }
+	// } else if (taskType == "QUESTION_TEXT") {
+	// if (isEmpty("#option1Text")) {
+	// isValid = false;
+	// }
+	// if (isEmpty("#option2Text")) {
+	// isValid = false;
+	// }
+	// }
+	// if (isEmpty("#taskTitleText")) {
+	// toastrNotification("error", "Please fill the title field",
+	// "Invalid Fields", "");
+	// isValid = false;
+	// }
+
+	return isValid;
+}
+// function isEmpty(input) {
+// $(input).parent().removeClass("has-error");
+// if ($(input).val() == null || $(input).val() == "") {
+// $(input).parent().addClass("has-error");
+// return true;
+// }
+// return false;
+// }
+
+function submitCurrenciesForm() {
+	debugger;
+	var formData = prepareFormData();
+	$.ajax({
+		url : "",
+		type : "POST",
+		contentType : "application/json",
+		dataType : "json",
+		data : JSON.stringify(formData),
+		success : function() {
+			hideLoader();
+			window.location.href = "../tasks";
+		},
+		error : function(error) {
+			hideLoader();
+			toastrNotification("error",
+					"An error has occured while submitting the form.",
+					"Submition Error", "");
+		}
+	});
+}
+
+function submitDealForm() {
+	if (formValidation() == true) {
+		formData = $('#DealForm').serialize();
+		$.ajax({
+			url : "../submitDeal",
+			type : "POST",
+			data : formData,
+			complete : function() {
+				console.log("complete");
+			},
+			success : function(ajaxNotification) {
+				if (ajaxNotification.status == "success") {
+					// window.location.href = "../home";
+				} else {
+					toastrNotification(ajaxNotification.status,
+							ajaxNotification.message, ajaxNotification.title,
+							"");
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				$("#loader-wrapper").attr("style",
+						"background: black; opacity: 0.6;display:none");
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+				$('#ajax_div').hide();
+			}
+		});
+	}
+}
+
+function prepareFormData() {
+	var taskType = $("#taskType").val();
+	var formData = {};
+
+	debugger;
+	return formData;
+}
+function updateSubTask() {
+
+	var taskType = $('#taskType').val();
+	$.ajax({
+		url : "getSubTasks/" + taskType,
+		type : "GET",
+		complete : function() {
+			console.log("complete");
+		},
+		success : function(subTaskList) {
+			var items = '';
+			for (var i = 0; i < subTaskList.length; i++) {
+				items += "<option value='" + subTaskList[i].title + "' ";
+				items += ">" + subTaskList[i].title + "</option>";
+			}
+			$("#subTask").html(items);
+			// $('#eventKeys').change();
+			debugger;
+			$('#eventKeys').find('option').remove().end();
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			$("#loader-wrapper").attr("style",
+					"background: black; opacity: 0.6;display:none");
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
+			$('#ajax_div').hide();
+		}
+	});
+}

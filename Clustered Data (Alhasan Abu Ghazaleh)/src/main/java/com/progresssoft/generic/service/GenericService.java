@@ -1,0 +1,8 @@
+package com.progresssoft.generic.service;
+
+import com.progresssoft.model.BaseEntity;
+import com.progresssoft.repository.GenericRepository;
+
+public interface GenericService<T extends BaseEntity> extends GenericRepository {
+
+}

@@ -1,0 +1,11 @@
+package com.progresssoft.utils;
+
+public class ResponseStatus {
+
+	enum Status {
+
+	}
+
+	private String message;
+
+}

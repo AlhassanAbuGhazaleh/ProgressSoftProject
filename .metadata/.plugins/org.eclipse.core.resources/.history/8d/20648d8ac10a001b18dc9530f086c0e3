@@ -1,0 +1,375 @@
+$(document).ready(
+		function() {
+			changeTask();
+			$("#taskType").change(function() {
+				changeTask();
+			});
+			$('.date-picker').datepicker({
+				orientation : "right",
+				autoclose : !0
+			});
+			$('.timepicker').timepicker({
+				autoclose : true,
+				minuteStep : 1,
+				use24hours : true,
+				timeFormat : 'h:i a',
+			});
+			$("#taskImage").change(function() {
+				previewImage(this);
+			});
+			$("#taskTitleImage").change(function() {
+				previewImage(this);
+			});
+			$("#cancelBtn").click(function() {
+				window.location.href = '../tasks';
+			});
+			var startDateString = $("#startDate").val();
+			var startDate = new Date(startDateString);
+			$("#startDate").datepicker('setDate', startDate);
+			var endDateString = $("#endDate").val();
+			var endDate = new Date(endDateString);
+			$("#endDate").datepicker('setDate', endDate);
+			var taskInitialDateString = $("#taskInitialDate").val();
+			var taskInitialDate = new Date(taskInitialDateString);
+			$("#taskInitialDate").datepicker('setDate', taskInitialDate);
+			$("#taskForm").on(
+					'submit',
+					function(e) {
+						e.preventDefault();
+						if (validateForm()) {
+							submitTaskForm();
+						} else {
+							toastrNotification("error",
+									"Please fill the required fields.",
+									"Invalid Fields", "");
+						}
+					});
+			$("#redirection").change(function() {
+				var redirection = $("#redirection").val();
+				var hasUrl = $("#hasRedirection_" + redirection).val();
+				if (hasUrl == "true") {
+					$("#redirection_url_div").removeClass("hidden");
+				} else {
+					debugger;
+					$("#redirection_url_div").addClass("hidden");
+				}
+			});
+			var redirection = $("#redirection").val();
+			var hasUrl = $("#hasRedirection_" + redirection).val();
+			if (hasUrl == "true") {
+				$("#redirection_url_div").removeClass("hidden");
+			} else {
+				$("#redirection_url_div").addClass("hidden");
+			}
+		});
+function previewImage(input) {
+	$("#" + input.id + "Preview").addClass("hidden");
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$("#" + input.id + "Preview").removeClass("hidden");
+			$("#" + input.id + "Preview").attr("src", e.target.result);
+		};
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+function isValidDates(date1, date2) {
+	if (date1 < date2) {
+		return false;
+	}
+	return true;
+}
+function validateConnectionTypeCheckBox() {
+	var connectionTypeArray = [];
+	$("input:checkbox[name=connectionTypes]:checked").each(function() {
+		connectionTypeArray.push($(this).val());
+	});
+	if (connectionTypeArray.length == 0) {
+		return true;
+	}
+	return false;
+}
+function validateForm() {
+	var isValid = true;
+	var taskType = $("#taskType").val();
+	var endDate = $("#endDate").val();
+	var startDate = $("#startDate").val();
+	var taskInitialDate = $("#taskInitialDate").val();
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+	debugger;
+	// $("#eventKeys").val().length == 0
+	if (taskType == "CRM" || taskType == "UQUIZ" || taskType == "UMNICOIN") {
+		if (isEmpty("#eventKeys")) {
+			isValid = false;
+		}
+	} else if (taskType == "QUESTION_TEXT") {
+		if (isEmpty("#option1Text")) {
+			isValid = false;
+		}
+		if (isEmpty("#option2Text")) {
+			isValid = false;
+		}
+	}
+	if (isEmpty("#taskTitleText")) {
+		toastrNotification("error", "Please fill the title field",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isEmpty("#taskTitleTextAr")) {
+		toastrNotification("error", "Please fill the arabic title field",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isEmpty("#startDate")) {
+		toastrNotification("error", "Please fill the start date field",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isEmpty("#taskInitialDate")) {
+		toastrNotification("error", "Please fill the initial date field",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isEmpty("#startTime")) {
+		toastrNotification("error", "Please fill the start time field",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isEmpty("#endTime")) {
+		toastrNotification("error", "Please fill the end time",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isEmpty("#taskImage")) {
+		toastrNotification("error", "Please upload icon for this task",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isEmpty("#reward")) {
+		toastrNotification("error", "Please fill the reward value.",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isEmpty("#extraPrize")) {
+		toastrNotification("error", "Please fill the required fields.",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isEmpty("#redirection")) {
+		toastrNotification("error", "Please fill the required fields.",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (validateConnectionTypeCheckBox()) {
+		toastrNotification("error",
+				"Please choose at least one Connection Type.",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isValidDates(startDate, endDate)) {
+		toastrNotification("error", "Start Date should be before End Date.",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isValidDates(startDate, taskInitialDate)) {
+		toastrNotification("error", "Initial Date should be after Start Date.",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	if (isValidDates(taskInitialDate, endDate)) {
+		toastrNotification("error", "Initial Date should be before End Date.",
+				"Invalid Fields", "");
+		isValid = false;
+	}
+	// if (isValidTimes()) {
+	// toastrNotification("error", "Initial Date should be before End Date.",
+	// "Invalid Fields", "");
+	// isValid = false;
+	// }
+	return isValid;
+}
+function isEmpty(input) {
+	$(input).parent().removeClass("has-error");
+	if ($(input).val() == null || $(input).val() == "") {
+		$(input).parent().addClass("has-error");
+		return true;
+	}
+	return false;
+}
+function isEmptyImage(input) {
+	$(input).parent().removeClass("has-error");
+	if ($(input).attr('src') == null || $(input).attr('src') == "") {
+		$(input).parent().addClass("has-error");
+		return true;
+	}
+	return false;
+}
+function changeTask() {
+	var taskType = $("#taskType").val();
+	if (taskType == "CRM" || taskType == "UQUIZ" || taskType == "UMNICOIN") {
+		$("#event_keys_div").removeClass("hidden");
+		$("#sub_Task_div").removeClass("hidden");
+	} else {
+		$("#event_keys_div").addClass("hidden");
+		$("#sub_Task_div").addClass("hidden");
+	}
+	if (taskType == "INSTANT" || taskType == "QUESTION_TEXT") {
+		$("#include_date_div").addClass("hidden");
+	} else {
+		$("#include_date_div").removeClass("hidden");
+	}
+	if (taskType == "QUESTION_TEXT") {
+		$("#task_title_label").html("Question");
+		$("#task_title_label_Ar").html("Arabic Question");
+		$("#taskTitleText").attr("placeholder", "Question");
+		$("#taskTitleTextAr").attr("placeholder", "Arabic Question");
+		$("#description_div").addClass("hidden");
+		$("#description_div_Ar").addClass("hidden");
+		$("#text_answers_div").removeClass("hidden");
+		$("#correct_answer_div").removeClass("hidden");
+	} else {
+		$("#task_title_label").html("Title");
+		$("#task_title_label_Ar").html("Arabic Title");
+		$("#taskTitleText").attr("placeholder", "Title");
+		$("#taskTitleTextAr").attr("placeholder", "Arabic Title");
+		$("#text_answers_div").addClass("hidden");
+		$("#correct_answer_div").addClass("hidden");
+		$("#description_div").removeClass("hidden");
+		$("#task_title_label_Ar").removeClass("hidden");
+		$("#description_div_Ar").removeClass("hidden");
+	}
+}
+function submitTaskForm() {
+	showLoader();
+	debugger;
+	var formData = prepareFormData();
+	$.ajax({
+		url : "",
+		type : "POST",
+		contentType : "application/json",
+		dataType : "json",
+		data : JSON.stringify(formData),
+		success : function() {
+			hideLoader();
+			window.location.href = "../tasks";
+		},
+		error : function(error) {
+			hideLoader();
+			toastrNotification("error",
+					"An error has occured while submitting the form.",
+					"Submition Error", "");
+		}
+	});
+}
+function setEventKeys() {
+	var dropDown = document.getElementById('eventKeys'), countryArray = [], i;
+	for (i = 0; i < dropDown.options.length; i += 1) {
+		if (dropDown.options[i].selected) {
+			countryArray.push(dropDown.options[i].value);
+		}
+	}
+	return countryArray;
+}
+function prepareFormData() {
+	var taskType = $("#taskType").val();
+	var formData = {};
+	var connectionTypes = new Array();
+	formData.taskId = parseInt($('input[name="taskId"]').val());
+	// formData.title = null;
+	// formData.titleAr = null;
+	formData.description = null;
+	formData.descriptionAr = null;
+	formData.taskImage = $('img[name="taskImage"]').attr('src');
+	formData.title = $('input[name="titleText"]').val();
+	formData.titleAr = $('input[name="titleTextAr"]').val();
+	var startDateSplit = $('input[name="startDate"]').val().split("/");
+	var startDate = new Date(startDateSplit[2], startDateSplit[0] - 1,
+			startDateSplit[1], 0, 0, 0);
+	formData.startDate = startDate;
+	var endDateSplit = $('input[name="endDate"]').val().split("/");
+	var endDate = new Date(endDateSplit[2], endDateSplit[0] - 1,
+			endDateSplit[1], 23, 59, 59);
+	formData.endDate = endDate;
+	var taskInitialDateSplit = $('input[name="taskInitialDate"]').val().split(
+			"/");
+	var taskInitialDate = new Date(taskInitialDateSplit[2],
+			taskInitialDateSplit[0] - 1, taskInitialDateSplit[1], 23, 59, 59);
+	formData.taskInitialDate = taskInitialDate;
+	var startTime = $('input[name="startTime"]').val();
+	formData.startTime = startTime;
+	var endTime = $('input[name="endTime"]').val();
+	formData.endTime = endTime;
+	formData.taskType = $('select[name="taskType"]').val();
+	formData.eventKeys = setEventKeys();
+	formData.isSpecial = ($('input[name="isSpecial"]:checked').val() == "true");
+	formData.reward = parseInt($('input[name="reward"]').val());
+	formData.extraPrize = $('select[name="extraPrize"]').val();
+	formData.includeDate = ($('input[name="includeDate"]:checked').val() == "true");
+	formData.redirection = $('select[name="redirection"]').val();
+	debugger;
+	var redirection = $('select[name="redirection"]').val();
+	var hasUrl = $("#hasRedirection_" + redirection).val();
+	if (hasUrl == "false") {
+		formData.redirectionURL = null;
+	} else {
+		formData.redirectionURL = $('input[name="redirectionURL"]').val();
+	}
+	formData.option1 = null;
+	formData.option2 = null;
+	formData.option3 = null;
+	formData.option4 = null;
+	formData.correctAnswer = null;
+	debugger;
+	formData.connectionTypes = connectionTypes;
+	var inputElements = document
+			.getElementsByClassName('connectionType-checkbox');
+	for (var i = 0; inputElements[i]; ++i) {
+		if (inputElements[i].checked) {
+			connectionTypes.push(inputElements[i].defaultValue);
+		}
+	}
+	if (taskType == "QUESTION_TEXT") {
+		formData.option1 = $('input[name="option1Text"]').val();
+		formData.option2 = $('input[name="option2Text"]').val();
+		formData.option3 = $('input[name="option3Text"]').val();
+		formData.option4 = $('input[name="option4Text"]').val();
+		formData.correctAnswer = parseInt($(
+				'input[name="correctAnswer"]:checked').val());
+	} else {
+		formData.description = $('textarea[name="description"]').val();
+		formData.descriptionAr = $('textarea[name="descriptionAr"]').val();
+	}
+	debugger;
+	return formData;
+}
+function updateSubTask() {
+	
+	var taskType = $('#taskType').val();
+	$.ajax({
+		url : "getSubTasks/" + taskType,
+		type : "GET",
+		complete : function() {
+			console.log("complete");
+		},
+		success : function(subTaskList) {
+			var items = '';
+			for (var i = 0; i < subTaskList.length; i++) {
+				items += "<option value='" + subTaskList[i].title + "' ";
+				items += ">" + subTaskList[i].title + "</option>";
+			}
+			$("#subTask").html(items);
+			// $('#eventKeys').change();
+			debugger;
+			$('#eventKeys').find('option').remove().end();
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			$("#loader-wrapper").attr("style",
+					"background: black; opacity: 0.6;display:none");
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
+			$('#ajax_div').hide();
+		}
+	});
+}

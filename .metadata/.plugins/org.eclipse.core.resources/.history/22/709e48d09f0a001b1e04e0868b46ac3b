@@ -1,0 +1,11 @@
+package com.progresssoft.wrapper;
+
+public class DealDetailWrapper {
+
+	private String fromCurrency;
+
+	private String toCurrency;
+
+	private Integer amount;
+
+}

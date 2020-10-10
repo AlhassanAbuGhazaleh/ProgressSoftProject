@@ -1,0 +1,6 @@
+package com.progresssoft.dao;
+
+@Repository
+public interface DealDao {
+
+}

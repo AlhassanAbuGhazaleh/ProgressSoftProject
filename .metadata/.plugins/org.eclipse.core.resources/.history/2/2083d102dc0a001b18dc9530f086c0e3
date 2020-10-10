@@ -1,0 +1,22 @@
+package com.progresssoft.dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+
+import com.progresssoft.model.Currency;
+
+public class CurrencyDaoImpl implements CurrencyDao {
+
+	@PersistenceContext(unitName = "Tagtac-JPA")
+	@Qualifier("tagtacEntityManagerFactoryBean")
+	private EntityManager teleEM;
+
+	@Override
+	public Currency findByCurrencyName(String currencyName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

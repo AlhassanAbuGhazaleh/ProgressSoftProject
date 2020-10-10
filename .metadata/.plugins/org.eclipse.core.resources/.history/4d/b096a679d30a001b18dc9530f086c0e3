@@ -1,0 +1,135 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" isELIgnored="false"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.GregorianCalendar"%>
+
+<script src="<c:url value="/resources/js/home.js"></c:url>"
+	type="text/javascript"></script>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<title>Clustered Data Warehouse</title>
+</head>
+<body>
+	<br>
+	<div class="col-sm-10"
+		style="border-radius: 5px; background-color: #C2B8D7; padding: 10px;">
+		<div class="container">
+			<div style="align-content: center">
+				<h2>Clustered Data Warehouse</h2>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4"
+				style="border-radius: 5px; background-color: #FFFFCC; padding: 10px;">
+				<form id="addCurrencyForm">
+					<div class="row">
+						<div class="col-md-6">
+							<label class="control-label">Add New Currency</label> <input
+								type="text" name="currency" id="currency">
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-6">
+							<button type="submit" class="btn blue" id="addCurrency">Add</button>
+							<button type="button" class="btn default" id="cancelAddCurrency">Cancel</button>
+						</div>
+					</div>
+
+				</form>
+			</div>
+
+			<div class="col-sm-8"
+				style="border-radius: 5px; background-color: #F6BCBC; padding: 10px;">
+				<form id="DealForm">
+					<div class="row">
+						<div class="col-md-5">
+							<label class="control-label">From Currencies</label> <select
+								onchange="updateToCurrencies()" class="form-control"
+								id="fromCurrency" name="fromCurrency">
+								<option selected>Please Select Currency</option>
+								<c:forEach items="${currencies}" var="currency">
+									<option value="${currency}">${currency.currencyName}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-5">
+							<label class="control-label">To Currencies</label> <select
+								class="form-control" id="toCurrency" name="toCurrency">
+								<option selected>Please Select Currency</option>
+								<c:forEach items="${currencies}" var="currency">
+									<option value="${currency}">${currency.currencyName}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-2">
+							<label class="control-label">Deal Amount</label> <input
+								type="text" name="amount" id="amount">
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-2">
+							<div class="form-actions">
+								<button type="submit" class="btn blue" id="submitBtn">Submit</button>
+								<button type="button" class="btn default" id="cancelBtn">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+	<br>
+	<div class="container">
+		<div class="form-group">
+			<table id="currenciesTable" border="1">
+				<thead class="dataTableHeader">
+					<tr>
+						<td>Deals Table</td>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${currencies}" var="currency">
+						<c:if test="${not empty currency}">
+							<tr>
+								<td>${currency.currencyName}</td>
+							</tr>
+						</c:if>
+						<c:if test="${empty currency}">
+							<tr>
+								<td>There's No Currencies</td>
+							</tr>
+						</c:if>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

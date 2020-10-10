@@ -1,0 +1,30 @@
+package com.progresssoft.service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.progresssoft.dao.DealDao;
+import com.progresssoft.generic.service.GenericServiceImpl;
+import com.progresssoft.model.Currency;
+import com.progresssoft.model.Deal;
+import com.progresssoft.utils.Logger;
+import com.progresssoft.wrapper.DealDetailWrapper;
+
+@Service
+@Transactional
+public class CurrencyServiceImpl extends GenericServiceImpl<Currency> implements CurrencyService {
+
+	private static final Logger logger = Logger.getLogger(CurrencyServiceImpl.class);
+
+	@Autowired
+	private DealDao dealDao;
+
+}

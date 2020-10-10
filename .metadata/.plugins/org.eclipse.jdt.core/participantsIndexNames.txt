@@ -1,0 +1,3 @@
+INDEX VERSION 1.131
+C:\Users\USER\Documents\ProgressSoft Project\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1722191056.index
+\Clustered Data (Alhasan Abu Ghazaleh)\src\main\java

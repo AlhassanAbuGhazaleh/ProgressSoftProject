@@ -1,0 +1,27 @@
+package com.progresssoft.utils;
+
+import java.util.Date;
+
+import org.slf4j.LoggerFactory;
+import com.google.common.base.Throwables;
+import ch.qos.logback.classic.Logger;
+
+public class Logger {
+
+	private Logger() {
+	}
+
+	public static final Logger systemTraceDebug = (Logger) LoggerFactory.getLogger("systemTraceDebug");
+	public static final Logger sysInfoWarnError = (Logger) LoggerFactory.getLogger("systemInfoWarnError");
+	public static final Logger sysUserEventInfo = (Logger) LoggerFactory.getLogger("systemUserEventInfo");
+
+	public static void debug(String txt) {
+		Logger.systemTraceDebug.debug(new Date() + "---> " + txt);
+	}
+
+	public static void error(Exception e, Class clazz) {
+		Logger.sysInfoWarnError.error("Exception: {} thrown in: {}. Message: {}. Stacktrace: {}",
+				new Object[] { e.getClass(), clazz, e.getMessage(), Throwables.getStackTraceAsString(e) });
+	}
+
+}

@@ -1,0 +1,18 @@
+package com.progresssoft.service;
+
+import java.util.List;
+
+import com.progresssoft.model.Deal;
+import com.progresssoft.repository.DealRepository;
+
+public interface DealService extends DealRepository {
+
+	public List<Deal> getAllDeals();
+
+	public Deal getDealById(Long id);
+
+	public boolean saveDeal(Deal user);
+
+	public boolean deleteDealById(Long id);
+
+}

@@ -1,0 +1,12 @@
+package com.progresssoft.service;
+
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import com.progresssoft.repository.DealRepository;
+
+@Service
+@Transactional
+public class DealServiceImpl implements DealService {
+
+}

@@ -1,0 +1,62 @@
+package com.progresssoft.service;
+
+import java.util.Date;
+
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.progresssoft.dao.CurrencyDao;
+import com.progresssoft.generic.service.GenericServiceImpl;
+import com.progresssoft.model.Currency;
+import com.progresssoft.utils.Logger;
+import com.progresssoft.utils.ResponseStatus;
+import com.progresssoft.utils.ResponseStatus.Status;
+
+@Service("currencyService")
+@Transactional
+public class CurrencyServiceImpl extends GenericServiceImpl<Currency> implements CurrencyService {
+
+	private static final Logger logger = Logger.getLogger(CurrencyServiceImpl.class);
+
+	CurrencyDao currencyDao;
+
+	@Override
+	public ResponseStatus addCurrency(String currencyName) {
+
+		ResponseStatus ResponseStatus = new ResponseStatus();
+
+		Currency currency = currencyDao.findByCurrencyName(currencyName);
+
+		if (currency != null) {
+			ResponseStatus.setStatus(Status.error);
+			ResponseStatus.setMessage("This Currency Exist !!");
+			return ResponseStatus;
+		} else {
+			Currency newCurrency = new Currency();
+
+			newCurrency.setCurrencyName(currencyName);
+			newCurrency.setCreateDate(new Date());
+			save(newCurrency);
+
+			logger.logInfo("The new entered Currency Saved  Successfully !!!");
+
+			ResponseStatus.setStatus(Status.success);
+			ResponseStatus.setMessage("This Currency Added Successfully !!");
+			return ResponseStatus;
+		}
+	}
+
+	public Currency findByCurrencyName(String currencyName) {
+		return currencyDao.findByCurrencyName(currencyName);
+	}
+
+	public CurrencyDao getCurrencyDao() {
+		return currencyDao;
+	}
+
+	@Autowired
+	public void setCurrencyDao(CurrencyDao currencyDao) {
+		this.currencyDao = currencyDao;
+	}
+
+}

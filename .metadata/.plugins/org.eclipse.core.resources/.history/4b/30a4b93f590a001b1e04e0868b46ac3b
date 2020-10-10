@@ -1,0 +1,18 @@
+package com.progresssoft.service;
+
+import com.progresssoft.generic.service.GenericService;
+
+public interface DealService extends GenericService {
+
+//	@Autowired
+//	DealRepository dealRepository;
+
+//	public List<Deal> getAllDeals();
+//
+//	public Deal getDealById(Long id);
+//
+//	public boolean saveDeal(Deal user);
+//
+//	public boolean deleteDealById(Long id);
+
+}

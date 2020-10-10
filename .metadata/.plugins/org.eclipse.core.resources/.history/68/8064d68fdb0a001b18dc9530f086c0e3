@@ -1,0 +1,13 @@
+package com.progresssoft.dao;
+
+import com.progresssoft.model.Currency;
+
+public class CurrencyDaoImpl implements CurrencyDao {
+
+	@Override
+	public Currency findByCurrencyName(String currencyName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

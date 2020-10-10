@@ -1,0 +1,5 @@
+package com.progresssoft.dao;
+
+public class DealDaoImpl {
+
+}

@@ -1,0 +1,24 @@
+1602236042559	Rename package 'com.javaspringclub.config'
+1602236056016	Rename package 'com.javaspringclub.controller'
+1602236068035	Rename package 'com.javaspringclub.repository'
+1602236084102	Rename package 'com.javaspringclub.service'
+1602236103276	Rename package 'com.javaspringclub.entity'
+1602236194644	Copy compilation unit
+1602264820948	Copy compilation unit
+1602265375409	Delete element
+1602265505017	Rename type 'UserRepository'
+1602265555155	Rename type 'UserService'
+1602265651064	Rename type 'UserServiceImpl'
+1602266062499	Copy compilation unit
+1602266093131	Rename type 'DealService'
+1602266164538	Copy compilation unit
+1602266268376	Copy compilation unit
+1602266297726	Rename type 'DealServiceImpl'
+1602266377699	Delete element
+1602284755788	Rename type 'UserController'
+1602296127757	Copy compilation unit
+1602297037719	Copy compilation unit
+1602297129499	Copy compilation unit
+1602297200305	Copy compilation unit
+1602297217663	Copy compilation unit
+1602300713785	Copy compilation unit

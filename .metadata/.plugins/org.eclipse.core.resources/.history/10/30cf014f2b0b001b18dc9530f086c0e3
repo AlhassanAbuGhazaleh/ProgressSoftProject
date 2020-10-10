@@ -1,0 +1,10 @@
+package com.progresssoft.repository;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.NoRepositoryBean;
+
+//@Repository
+@NoRepositoryBean
+public interface GenericRepository extends CrudRepository<Object, Long> {
+	
+}

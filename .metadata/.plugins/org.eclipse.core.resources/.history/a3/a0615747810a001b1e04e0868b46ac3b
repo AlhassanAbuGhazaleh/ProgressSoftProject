@@ -1,0 +1,5 @@
+package com.progresssoft.utils;
+
+public class Logger {
+
+}

@@ -1,0 +1,11 @@
+package com.progresssoft.service;
+
+import java.util.List;
+
+import com.progresssoft.generic.service.GenericService;
+import com.progresssoft.model.Deal;
+
+public interface DealService extends GenericService<Deal> {
+
+	public void saveDealsData(List<Deal> dealData);
+}

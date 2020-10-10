@@ -1,0 +1,29 @@
+package com.progresssoft.dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+
+import com.progresssoft.model.Currency;
+
+public class CurrencyDaoImpl implements CurrencyDao {
+
+	@PersistenceContext(unitName = "Tagtac-JPA")
+	@Qualifier("tagtacEntityManagerFactoryBean")
+	private EntityManager teleEM;
+
+	@Override
+	public Currency findByCurrencyName(String currencyName) {
+
+		StringBuilder dbCurrency= new StringBuilder().append("SELECT c FROM Currency c ")
+				.append("WHERE c.currencyName = :currencyName");
+	}
+
+	Query query = teleEM.createQuery(dbCurrency.toString());
+	query.setParameter("activeStatus",ApplicationConstant.ACTIVE);query.setParameter("date",date);
+	List<GamificationTask> result = query.getResultList();return result;
+}
+
+}

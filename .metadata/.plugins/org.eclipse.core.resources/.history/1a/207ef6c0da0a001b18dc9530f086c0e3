@@ -1,0 +1,85 @@
+package com.progresssoft.generic.service;
+
+import java.util.Optional;
+import javax.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import com.progresssoft.model.BaseEntity;
+
+@Service
+@Transactional
+public abstract class GenericServiceImpl<T extends BaseEntity> implements GenericService<T> {
+
+	@Override
+	public <S> S save(S entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <S> Iterable<S> saveAll(Iterable<S> entities) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<Object> findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	public Optional<Object> findByCurrencyName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean existsById(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Iterable<Object> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterable<Object> findAllById(Iterable<Long> ids) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long count() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void delete(Object entity) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteAll(Iterable<? extends Object> entities) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteAll() {
+		// TODO Auto-generated method stub
+
+	}
+
+}

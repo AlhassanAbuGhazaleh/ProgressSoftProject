@@ -1,0 +1,7 @@
+package com.progresssoft.service;
+
+import com.progresssoft.generic.service.GenericService;
+
+public interface DealService extends GenericService {
+
+}

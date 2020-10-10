@@ -1,0 +1,22 @@
+package com.progresssoft.model;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
+public class BaseEntity {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID", unique = true, nullable = false, length = 255)
+	private Long id;
+
+	@Column(name = "CREATE_DATE", unique = false, nullable = true, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeSerializer.class)
+	private Date createDate;
+
+}

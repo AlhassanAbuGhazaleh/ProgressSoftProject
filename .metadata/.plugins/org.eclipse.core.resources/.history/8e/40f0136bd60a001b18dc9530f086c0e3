@@ -1,0 +1,82 @@
+$(document).ready(
+		function() {
+
+			$("#cancelBtn").click(function() {
+				window.location.href = '../home';
+			});
+
+			$("#taskForm").on(
+					'submit',
+					function(e) {
+						e.preventDefault();
+						if (validateForm()) {
+							submitTaskForm();
+						} else {
+							toastrNotification("error",
+									"Please fill the required fields.",
+									"Invalid Fields", "");
+						}
+					});
+
+		});
+
+function submitDealForm() {
+		formData = $('#DealForm').serialize();
+		$.ajax({
+			url : "../submitDeal",
+			type : "POST",
+			data : formData,
+			complete : function() {
+				console.log("complete");
+			},
+			success : function(ajaxNotification) {
+				if (ajaxNotification.status == "success") {
+					// window.location.href = "../home";
+				} else {
+					toastrNotification(ajaxNotification.status,
+							ajaxNotification.message, ajaxNotification.title,
+							"");
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				$("#loader-wrapper").attr("style",
+						"background: black; opacity: 0.6;display:none");
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
+				$('#ajax_div').hide();
+			}
+		});
+	}
+}
+
+function updateToCurrencies() {
+
+	var fromCurrency = $('#fromCurrency').val();
+	$.ajax({
+		url : "getSubTasks/" + taskType,
+		type : "GET",
+		complete : function() {
+			console.log("complete");
+		},
+		success : function(subTaskList) {
+			var items = '';
+			for (var i = 0; i < subTaskList.length; i++) {
+				items += "<option value='" + subTaskList[i].title + "' ";
+				items += ">" + subTaskList[i].title + "</option>";
+			}
+			$("#subTask").html(items);
+			// $('#eventKeys').change();
+			debugger;
+			$('#eventKeys').find('option').remove().end();
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			$("#loader-wrapper").attr("style",
+					"background: black; opacity: 0.6;display:none");
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
+			$('#ajax_div').hide();
+		}
+	});
+}

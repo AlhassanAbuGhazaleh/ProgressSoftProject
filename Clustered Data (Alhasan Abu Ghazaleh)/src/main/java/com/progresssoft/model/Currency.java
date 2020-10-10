@@ -1,0 +1,21 @@
+package com.progresssoft.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "CURRENCY")
+public class Currency extends BaseEntity {
+
+	@Column(name = "CURRENCY_NAME", unique = false, nullable = true, length = 255)
+	private String currencyName;
+
+	public String getCurrencyName() {
+		return currencyName;
+	}
+
+	public void setCurrencyName(String currencyName) {
+		this.currencyName = currencyName;
+	}
+}

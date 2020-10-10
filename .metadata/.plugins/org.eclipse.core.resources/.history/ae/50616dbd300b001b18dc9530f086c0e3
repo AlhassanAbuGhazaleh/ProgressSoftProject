@@ -1,0 +1,9 @@
+package com.progresssoft.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.progresssoft.model.Currency;
+
+public interface CurrencyDao {
+	public Currency findByCurrencyName(String currencyName);
+}

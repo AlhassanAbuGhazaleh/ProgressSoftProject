@@ -1,0 +1,78 @@
+package com.progresssoft.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "DEAL")
+public class Deal extends BaseEntity {
+
+//	@Column(name = "FROM_CURRENCY", unique = false, nullable = true, length = 255)
+//	private String fromCurrency;
+//	@Column(name = "TO_CURRENCY", unique = false, nullable = true, length = 255)
+//	private String toCurrency;
+
+	@ManyToOne
+	@JoinColumn(name = "FROM_CURRENCY_ID")
+	private Currency fromCurrency;
+
+	@ManyToOne
+	@JoinColumn(name = "TO_CURRENCY_ID")
+	private Currency toCurrency;
+
+	@Column(name = "DEAL_DATE", unique = false, nullable = true, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+	private Date dealDate;
+
+	@Column(name = "AMOUNT", unique = false, nullable = true, length = 255)
+	private Integer amount;
+
+	public Deal(String fromCurrency, String toCurrency, Date dealDate, Integer amount) {
+		super();
+		this.fromCurrency = fromCurrency;
+		this.toCurrency = toCurrency;
+		this.dealDate = dealDate;
+		this.amount = amount;
+	}
+
+	public Deal() {
+		super();
+	}
+
+	public String getFromCurrency() {
+		return fromCurrency;
+	}
+
+	public void setFromCurrency(String fromCurrency) {
+		this.fromCurrency = fromCurrency;
+	}
+
+	public String getToCurrency() {
+		return toCurrency;
+	}
+
+	public void setToCurrency(String toCurrency) {
+		this.toCurrency = toCurrency;
+	}
+
+	public Date getDealDate() {
+		return dealDate;
+	}
+
+	public void setDealDate(Date dealDate) {
+		this.dealDate = dealDate;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+
+}

@@ -1,0 +1,24 @@
+package com.progresssoft.model;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
+public class Deal {
+
+	private Integer id;
+	private String fromCurrency;
+	private String toCurrency;
+	private Date dealDate;
+	private Integer amount;
+
+//	private String reason;
+//	private String fileName;
+
+}

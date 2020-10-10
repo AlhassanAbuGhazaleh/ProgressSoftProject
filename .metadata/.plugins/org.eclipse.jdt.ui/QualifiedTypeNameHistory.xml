@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="javax.persistence.MappedSuperclass"/>
+<fullyQualifiedTypeName name="javax.persistence.Column"/>
+<fullyQualifiedTypeName name="com.progresssoft.repository.DealRepository"/>
+<fullyQualifiedTypeName name="com.progresssoft.repository.GenericRepository"/>
+<fullyQualifiedTypeName name="com.progresssoft.generic.service.GenericServiceImpl"/>
+<fullyQualifiedTypeName name="com.progresssoft.service.DealService"/>
+<fullyQualifiedTypeName name="org.junit.internal.Throwables"/>
+<fullyQualifiedTypeName name="com.progresssoft.model.BaseEntity"/>
+<fullyQualifiedTypeName name="com.progresssoft.generic.service.GenericService"/>
+<fullyQualifiedTypeName name="com.progresssoft.controller.DealController"/>
+<fullyQualifiedTypeName name="com.progresssoft.utils.Logger"/>
+<fullyQualifiedTypeName name="com.progresssoft.dao.DealDao"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="org.springframework.beans.BeanUtils"/>
+<fullyQualifiedTypeName name="java.math.BigInteger"/>
+<fullyQualifiedTypeName name="javax.persistence.ManyToOne"/>
+<fullyQualifiedTypeName name="javax.persistence.JoinColumn"/>
+<fullyQualifiedTypeName name="java.util.stream.Collectors"/>
+<fullyQualifiedTypeName name="java.util.Objects"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.progresssoft.wrapper.CurrencyWrapper"/>
+<fullyQualifiedTypeName name="com.progresssoft.model.Deal"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
+<fullyQualifiedTypeName name="org.springframework.ui.Model"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Scope"/>
+<fullyQualifiedTypeName name="com.progresssoft.service.CurrencyService"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="org.springframework.data.repository.NoRepositoryBean"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ResponseBody"/>
+<fullyQualifiedTypeName name="com.progresssoft.wrapper.DealDetailWrapper"/>
+<fullyQualifiedTypeName name="javax.persistence.PersistenceContext"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Qualifier"/>
+<fullyQualifiedTypeName name="javax.persistence.EntityManager"/>
+<fullyQualifiedTypeName name="javax.persistence.EntityManagerFactory"/>
+<fullyQualifiedTypeName name="javax.persistence.Query"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+<fullyQualifiedTypeName name="com.progresssoft.utils.ResponseStatus"/>
+<fullyQualifiedTypeName name="com.progresssoft.utils.ResponseStatus.Status"/>
+<fullyQualifiedTypeName name="com.progresssoft.model.Currency"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="com.progresssoft.dao.CurrencyDao"/>
+<fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
+</qualifiedTypeNameHistroy>

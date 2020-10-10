@@ -1,0 +1,87 @@
+package com.progresssoft.utils;
+
+import com.progresssoft.controller.DealController;
+//import com.google.common.base.Throwables;
+//import ch.qos.logback.classic.Logger;
+
+public class Logger {
+
+	private Logger() {
+	}
+
+	private org.apache.log4j.Logger logger;
+
+	private Logger(org.apache.log4j.Logger log4j) {
+		this.logger = log4j;
+	}
+
+	public static Logger getLogger(String name) {
+
+		return new Logger(org.apache.log4j.Logger.getLogger(name));
+	}
+
+	public static Logger getLogger(Class<?> clazz) {
+
+		return new Logger(org.apache.log4j.Logger.getLogger(clazz));
+	}
+
+	public String getName() {
+		return logger.getName();
+	}
+
+	public void LogException(String msg, Throwable exception) {
+
+		StringBuilder sb = new StringBuilder("");
+		String lineSeparator = System.getProperty("line.separator");
+
+		sb.append(msg).append(lineSeparator);
+		sb.append("Caused by:: ").append(exception.getCause()).append(lineSeparator);
+		lineSeparator += "\t";
+
+		for (StackTraceElement st : exception.getStackTrace()) {
+			sb.append(st.toString() + lineSeparator);
+		}
+
+		this.logger.error(sb.toString(), exception);
+	}
+
+	public void LogException(String msg, Throwable exception, Object... params) {
+
+		StringBuilder sb = new StringBuilder("");
+		String lineSeparator = System.getProperty("line.separator");
+
+		sb.append(String.format(msg, params)).append(lineSeparator);
+		sb.append("Caused by:: ").append(exception.getCause()).append(lineSeparator);
+		lineSeparator += "\t";
+
+		for (StackTraceElement st : exception.getStackTrace()) {
+			sb.append(st.toString() + lineSeparator);
+		}
+
+		this.logger.error(sb.toString(), exception);
+	}
+
+//	public void logDebug(String msg, Object... args) {
+//
+//	}
+
+//	public void logDebug(String msg) {
+//
+//	}
+
+	public void logInfo(String msg, Object... args) {
+
+	}
+
+	public static void main(String[] args) {
+		Logger logone = Logger.getLogger(Logger.class);
+//		logone.logDebug("logging working now....");
+
+		Logger logtwo = Logger.getLogger(LogException.class);
+		logtwo.logInfo("logginf info ...");
+
+//		logone.logDebug("logging working now....end");
+		logtwo.logInfo("logginf info ...end");
+	}
+
+}

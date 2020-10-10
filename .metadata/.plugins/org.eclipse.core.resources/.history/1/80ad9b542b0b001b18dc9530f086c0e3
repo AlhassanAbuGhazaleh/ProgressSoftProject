@@ -1,0 +1,15 @@
+package com.progresssoft.service;
+
+import org.springframework.stereotype.Repository;
+import com.progresssoft.generic.service.GenericService;
+import com.progresssoft.model.Currency;
+import com.progresssoft.utils.ResponseStatus;
+
+@Repository
+public interface CurrencyService extends GenericService<Currency> {
+
+	public ResponseStatus addCurrency(String currencyName);
+
+	public Currency findByCurrencyName(String currencyName);
+
+}

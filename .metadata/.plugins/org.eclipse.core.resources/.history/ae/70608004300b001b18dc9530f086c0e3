@@ -1,0 +1,164 @@
+package com.progresssoft.service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.progresssoft.dao.CurrencyDao;
+import com.progresssoft.generic.service.GenericServiceImpl;
+import com.progresssoft.model.Currency;
+import com.progresssoft.model.Deal;
+import com.progresssoft.utils.Logger;
+import com.progresssoft.utils.ResponseStatus;
+import com.progresssoft.utils.ResponseStatus.Status;
+import com.progresssoft.wrapper.DealDetailWrapper;
+
+@Service("dealService")
+@Transactional
+public class DealServiceImpl extends GenericServiceImpl<Deal> implements DealService {
+
+	private static final Logger logger = Logger.getLogger(DealServiceImpl.class);
+
+	private CurrencyService currencyService;
+
+	private CurrencyDao currencyDao;
+
+	@Override
+	public ResponseStatus saveDealData(DealDetailWrapper dealDetailWrapper) {
+
+		ResponseStatus responseStatus = new ResponseStatus();
+
+		if (dealDetailWrapper.getAmount() == null || dealDetailWrapper.getAmount().equals("")) {
+			responseStatus.setStatus(Status.error);
+			responseStatus.setMessage("Amount is required");
+			return responseStatus;
+		}
+
+		if (dealDetailWrapper.getFromCurrency() == null || dealDetailWrapper.getToCurrency() == null) {
+			responseStatus.setStatus(Status.error);
+			responseStatus.setMessage("Currencies required");
+			return responseStatus;
+		}
+
+		logger.logInfo("The new entered Deals Data is from currency : " + dealDetailWrapper.getFromCurrency()
+				+ " to currency :" + dealDetailWrapper.getToCurrency());
+
+		Iterable<Object> dbIterableCurrencies = currencyService.findAll();
+		List<Currency> existCurrencies = new ArrayList<Currency>();
+		for (Object object : dbIterableCurrencies) {
+			if (object instanceof Currency) {
+				existCurrencies.add((Currency) object);
+			}
+		}
+
+		Map<String, Currency> mapCurrencies = new HashMap<>();
+		for (Currency currency : existCurrencies) {
+			mapCurrencies.put(currency.getCurrencyName(), currency);
+		}
+
+		if (!existCurrencies.isEmpty() && !mapCurrencies.containsKey(dealDetailWrapper.getFromCurrency())
+				&& !mapCurrencies.containsKey(dealDetailWrapper.getToCurrency())) {
+
+			responseStatus.setStatus(Status.error);
+			responseStatus.setMessage("You should add Currencies first");
+			return responseStatus;
+		}
+
+		Iterable<Object> dbIterableDeals = findAll();
+		List<Deal> existDeals = new ArrayList<Deal>();
+		for (Object object : dbIterableDeals) {
+			if (object instanceof Deal) {
+				existDeals.add((Deal) object);
+			}
+		}
+
+		Map<Long, Deal> mapDeals = new HashMap<>();
+		for (Deal deal : existDeals) {
+			mapDeals.put(deal.getId(), deal);
+		}
+
+		Currency fromCurrency = currencyDao.findByCurrencyName(dealDetailWrapper.getFromCurrency());
+		Currency toCurrency = currencyDao.findByCurrencyName(dealDetailWrapper.getToCurrency());
+
+		mapDeals.forEach((id, deal) -> {
+
+			if (deal.getFromCurrency() == fromCurrency && deal.getToCurrency() == toCurrency) {
+				logger.logInfo("This deal is exist before !!!!!!!");
+				return;
+			} else {
+				Deal newDeal = new Deal(fromCurrency, toCurrency, new Date(), dealDetailWrapper.getAmount());
+
+				this.save(newDeal);
+			}
+		});
+
+		responseStatus.setStatus(Status.success);
+		responseStatus.setMessage("Deal Added Successfully");
+		return responseStatus;
+	}
+
+//	public CurrencyWrapper saveCurrency(Map<String, Currency> mapCurrencies, String fromCurrency, String toCurrency) {
+//
+//		CurrencyWrapper currencyWrapper = new CurrencyWrapper();
+//
+//		if (mapCurrencies == null && fromCurrency != null && toCurrency != null) {
+//
+//			Currency newFromCurrency = new Currency();
+//			newFromCurrency.setCurrencyName(fromCurrency);
+//			newFromCurrency.setCreateDate(new Date());
+//			currencyService.save(newFromCurrency);
+//			currencyWrapper.setFromCurrency(newFromCurrency);
+//			logger.logInfo("The new Currency : " + fromCurrency + "Added Successfully");
+//
+//			Currency newToCurrency = new Currency();
+//			newToCurrency.setCurrencyName(toCurrency);
+//			newToCurrency.setCreateDate(new Date());
+//			currencyService.save(newToCurrency);
+//			currencyWrapper.setToCurrency(newToCurrency);
+//			logger.logInfo("The new Currency : " + toCurrency + "Added Successfully");
+//		}
+//		if (mapCurrencies.get(fromCurrency) == null) {
+//			Currency currency = new Currency();
+//			currency.setCurrencyName(fromCurrency);
+//			currency.setCreateDate(new Date());
+//			currencyService.save(currency);
+//			logger.logInfo("The new Currency : " + fromCurrency + "Added Successfully");
+//			currenciesAfterAddition.add(currency);
+//			currencyWrapper.setFromCurrency(currency);
+//		}
+//
+//		if (mapCurrencies.get(toCurrency) == null) {
+//			Currency currency = new Currency();
+//			currency.setCurrencyName(toCurrency);
+//			currency.setCreateDate(new Date());
+//			currencyService.save(currency);
+//			logger.logInfo("The new Currency : " + toCurrency + "Added Successfully");
+//			currenciesAfterAddition.add(currency);
+//			currencyWrapper.setToCurrency(currency);
+//		}
+//
+//		return currencyWrapper;
+//	}
+
+	public CurrencyService getCurrencyService() {
+		return currencyService;
+	}
+
+	@Autowired
+	public void setCurrencyService(CurrencyService currencyService) {
+		this.currencyService = currencyService;
+	}
+
+	public CurrencyDao getCurrencyDao() {
+		return currencyDao;
+	}
+
+	@Autowired
+	public void setCurrencyDao(CurrencyDao currencyDao) {
+		this.currencyDao = currencyDao;
+	}
+}

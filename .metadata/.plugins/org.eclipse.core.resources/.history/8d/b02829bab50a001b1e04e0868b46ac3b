@@ -1,0 +1,99 @@
+package com.progresssoft.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import com.progresssoft.model.Currency;
+import com.progresssoft.model.Deal;
+import com.progresssoft.service.CurrencyService;
+import com.progresssoft.service.DealService;
+
+@Controller
+@RequestMapping("/home")
+@Scope(value = org.springframework.web.context.WebApplicationContext.SCOPE_SESSION)
+public class DealController {
+
+//	@Autowired
+	private DealService dealService;
+
+//	@Autowired
+	private CurrencyService currencyService;
+
+	@GetMapping(value = "/")
+	public String homePage(Model model) {
+
+		Iterable<Object> iterableCurrencies = currencyService.findAll();
+		List<Currency> currencies = new ArrayList<Currency>();
+		for (Object currencyObject : iterableCurrencies) {
+			if (currencyObject instanceof Currency) {
+				currencies.add((Currency) currencyObject);
+			}
+		}
+
+		Iterable<Object> iterableDeals = dealService.findAll();
+		List<Currency> deals = new ArrayList<Currency>();
+		for (Object dealObject : iterableDeals) {
+			if (dealObject instanceof Currency) {
+				deals.add((Currency) dealObject);
+			}
+		}
+
+		model.addAttribute("currencies", currencies);
+		model.addAttribute("deals", deals);
+
+		return "home";
+	}
+
+	@RequestMapping(value = "/addDeal", method = RequestMethod.GET)
+	public ModelAndView displayNewDealForm() {
+		ModelAndView mv = new ModelAndView("addDeal");
+		mv.addObject("headerMessage", "Add Deal Details");
+		mv.addObject("deal", new Deal());
+		return mv;
+	}
+
+	@RequestMapping(value = "/addDeal", method = RequestMethod.POST)
+	public ModelAndView saveNewDeal(@ModelAttribute Deal deal, BindingResult result) {
+		ModelAndView mv = new ModelAndView("redirect:/home");
+
+		if (result.hasErrors()) {
+			return new ModelAndView("error");
+		}
+		Deal newdeal = dealService.save(deal);
+		if (newdeal != null) {
+			mv.addObject("message", "New deal successfully added");
+		} else {
+			return new ModelAndView("error");
+		}
+
+		return mv;
+	}
+
+	public DealService getDealService() {
+		return dealService;
+	}
+
+	@Autowired
+	public void setDealService(DealService dealService) {
+		this.dealService = dealService;
+	}
+
+	public CurrencyService getCurrencyService() {
+		return currencyService;
+	}
+
+	@Autowired
+	public void setCurrencyService(CurrencyService currencyService) {
+		this.currencyService = currencyService;
+	}
+
+}

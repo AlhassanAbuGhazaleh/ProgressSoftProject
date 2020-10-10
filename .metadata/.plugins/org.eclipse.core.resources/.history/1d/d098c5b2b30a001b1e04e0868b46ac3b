@@ -1,0 +1,10 @@
+package com.progresssoft.service;
+
+import com.progresssoft.generic.service.GenericService;
+import com.progresssoft.model.Deal;
+import com.progresssoft.wrapper.DealDetailWrapper;
+
+public interface DealService extends GenericService<Deal> {
+
+	public void saveDealData(DealDetailWrapper dealDetailWrapper);
+}
